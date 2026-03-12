@@ -14,15 +14,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OpencodeClient {
+    private static final int TIMEOUT_MS = 3000;
+    
     private final String baseUrl;
-    private final String sessionId;
     private final Gson gson;
     
     public OpencodeClient(String projectPath) throws IOException {
         OpencodeSettings.State settings = OpencodeSettings.getInstance().getState();
+        if (settings == null) {
+            throw new IOException("Failed to load OpenCode settings");
+        }
         int port = PortDetector.detectPort(settings.host, projectPath);
         this.baseUrl = settings.host + ":" + port;
-        this.sessionId = settings.sessionId;
         this.gson = new Gson();
     }
     
@@ -36,6 +39,8 @@ public class OpencodeClient {
         
         URL url = new URL(endpoint);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setConnectTimeout(TIMEOUT_MS);
+        conn.setReadTimeout(TIMEOUT_MS);
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setDoOutput(true);

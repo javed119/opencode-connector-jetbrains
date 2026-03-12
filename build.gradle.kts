@@ -20,7 +20,7 @@ dependencies {
 intellij {
     version.set("2023.2")
     type.set("IC")
-    plugins.set(listOf())
+    plugins.set(listOf("org.jetbrains.plugins.terminal"))
 }
 
 tasks {

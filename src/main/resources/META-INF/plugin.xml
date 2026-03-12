@@ -8,6 +8,7 @@
     ]]></description>
     
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
     
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.epochbyte.settings.OpencodeSettings"/>
@@ -15,12 +16,21 @@
     </extensions>
     
     <actions>
+        <action id="com.epochbyte.StartOpencode"
+                class="com.epochbyte.actions.StartOpencodeAction"
+                text="Start OpenCode"
+                description="Start OpenCode in terminal"
+                icon="AllIcons.Actions.Execute">
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+        </action>
+        
         <action id="com.epochbyte.SendToOpencode" 
                 class="com.epochbyte.actions.SendToOpencodeAction" 
                 text="Send to OpenCode"
                 description="Send selected code to OpenCode">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="meta alt K"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="control alt K"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt K"/>
         </action>
     </actions>
 </idea-plugin>

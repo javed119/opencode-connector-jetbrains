@@ -60,10 +60,6 @@ public class SendToOpencodeAction extends AnAction {
         try {
             OpencodeClient client = new OpencodeClient(projectPath);
             client.sendCode(fileReference);
-            Messages.showInfoMessage(
-                "Code sent to OpenCode successfully", 
-                "Success"
-            );
         } catch (Exception ex) {
             Messages.showErrorDialog(
                 "Failed to send code: " + ex.getMessage(), 
