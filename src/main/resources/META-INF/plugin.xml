@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>com.epochbyte.opencode-link</id>
+    <name>OpenCode Link</name>
+    <vendor>Epochbyte</vendor>
+    
+    <description><![CDATA[
+    Send selected code to OpenCode via keyboard shortcut.
+    ]]></description>
+    
+    <depends>com.intellij.modules.platform</depends>
+    
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.epochbyte.settings.OpencodeSettings"/>
+        <applicationConfigurable instance="com.epochbyte.settings.OpencodeConfigurable"/>
+    </extensions>
+    
+    <actions>
+        <action id="com.epochbyte.SendToOpencode" 
+                class="com.epochbyte.actions.SendToOpencodeAction" 
+                text="Send to OpenCode"
+                description="Send selected code to OpenCode">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="meta alt K"/>
+        </action>
+    </actions>
+</idea-plugin>
