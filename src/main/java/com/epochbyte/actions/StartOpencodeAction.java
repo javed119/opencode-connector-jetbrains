@@ -42,12 +42,6 @@ public class StartOpencodeAction extends AnAction {
             
             String command = "opencode --port " + port;
             widget.executeCommand(command);
-            
-            ToolWindow terminalWindow = ToolWindowManager.getInstance(project)
-                .getToolWindow(TerminalToolWindowFactory.TOOL_WINDOW_ID);
-            if (terminalWindow != null) {
-                terminalWindow.activate(null);
-            }
         } catch (Exception ex) {
             Messages.showErrorDialog(
                 "Failed to start OpenCode: " + ex.getMessage(), 

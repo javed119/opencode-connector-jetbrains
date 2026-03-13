@@ -21,7 +21,6 @@
                 text="Start OpenCode"
                 description="Start OpenCode in terminal"
                 icon="/icons/opencode-logo-dark.svg">
-            <add-to-group group-id="MainToolbarRight" anchor="first"/>
         </action>
         
         <action id="com.epochbyte.SendToOpencode" 
