@@ -36,14 +36,7 @@ public class OpencodeClient {
         body.put("text", code);
         
         String jsonBody = gson.toJson(body);
-        
-        URL url = new URL(endpoint);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setConnectTimeout(TIMEOUT_MS);
-        conn.setReadTimeout(TIMEOUT_MS);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
+        HttpURLConnection conn = createConnection(endpoint, "POST");
         
         try (OutputStream os = conn.getOutputStream()) {
             byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
@@ -54,5 +47,16 @@ public class OpencodeClient {
         if (responseCode != 200) {
             throw new IOException("HTTP error code: " + responseCode);
         }
+    }
+    
+    private HttpURLConnection createConnection(String endpoint, String method) throws IOException {
+        URL url = new URL(endpoint);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setConnectTimeout(TIMEOUT_MS);
+        conn.setReadTimeout(TIMEOUT_MS);
+        conn.setRequestMethod(method);
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
+        return conn;
     }
 }

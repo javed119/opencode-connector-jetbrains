@@ -20,8 +20,8 @@
                 class="com.epochbyte.actions.StartOpencodeAction"
                 text="Start OpenCode"
                 description="Start OpenCode in terminal"
-                icon="AllIcons.Actions.Execute">
-            <add-to-group group-id="MainToolBar" anchor="last"/>
+                icon="/icons/opencode-logo-dark.svg">
+            <add-to-group group-id="MainToolbarRight" anchor="first"/>
         </action>
         
         <action id="com.epochbyte.SendToOpencode" 

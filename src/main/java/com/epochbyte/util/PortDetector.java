@@ -9,15 +9,20 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class PortDetector {
-    private static final int PORT_START = 20000;
-    private static final int PORT_END = 40000;
-    private static final int TIMEOUT_MS = 500;
+    private static final int TIMEOUT_MS = 3000;
     private static final Gson gson = new Gson();
     
     public static int detectPort(String host, String projectPath) throws IOException {
-        for (int port = PORT_START; port <= PORT_END; port++) {
+        List<Integer> ports = ProcessScanner.findOpencodePorts();
+        
+        if (ports.isEmpty()) {
+            throw new IOException("No OpenCode process found");
+        }
+        
+        for (int port : ports) {
             if (matchesProject(host, port, projectPath)) {
                 return port;
             }

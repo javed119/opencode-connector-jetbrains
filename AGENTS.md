@@ -90,7 +90,7 @@ com.epochbyte/
 
 - **类名**: PascalCase（如 `OpencodeClient`, `SendToOpencodeAction`）
 - **方法名**: camelCase（如 `sendCode()`, `detectPort()`）
-- **字段名**: camelCase（如 `baseUrl`, `sessionId`）
+- **字段名**: camelCase（如 `baseUrl`, `port`）
 - **常量**: UPPER_SNAKE_CASE（如 `PORT_START`, `TIMEOUT_MS`）
 - **包名**: 全小写，无下划线（如 `com.epochbyte.client`）
 

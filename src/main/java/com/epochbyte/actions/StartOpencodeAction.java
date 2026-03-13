@@ -1,11 +1,14 @@
 package com.epochbyte.actions;
 
+import com.epochbyte.util.ProjectUtils;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.plugins.terminal.ShellTerminalWidget;
 import org.jetbrains.plugins.terminal.TerminalToolWindowFactory;
 import org.jetbrains.plugins.terminal.TerminalToolWindowManager;
@@ -22,15 +25,12 @@ public class StartOpencodeAction extends AnAction {
     
     @Override
     public void actionPerformed(AnActionEvent e) {
-        Project project = e.getProject();
-        if (project == null) {
-            Messages.showErrorDialog("No project found", "Error");
+        String projectPath = ProjectUtils.getProjectPath(e);
+        if (projectPath == null) {
             return;
         }
-        
-        String projectPath = project.getBasePath();
-        if (projectPath == null) {
-            Messages.showErrorDialog("Cannot determine project path", "Error");
+        Project project = e.getProject();
+        if (project == null) {
             return;
         }
         
@@ -65,6 +65,12 @@ public class StartOpencodeAction extends AnAction {
             }
         }
         throw new Exception("No available port found after " + MAX_ATTEMPTS + " attempts");
+    }
+    
+    @NotNull
+    @Override
+    public ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
     }
     
     @Override

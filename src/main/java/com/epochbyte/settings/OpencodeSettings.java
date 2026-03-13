@@ -15,7 +15,6 @@ public class OpencodeSettings implements PersistentStateComponent<OpencodeSettin
     
     public static class State {
         public String host = "http://127.0.0.1";
-        public String sessionId = "default";
     }
     
     private State state = new State();

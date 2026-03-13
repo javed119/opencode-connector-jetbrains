@@ -1,6 +1,8 @@
 package com.epochbyte.actions;
 
 import com.epochbyte.client.OpencodeClient;
+import com.epochbyte.util.ProjectUtils;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -8,9 +10,9 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
+import org.jetbrains.annotations.NotNull;
 
 public class SendToOpencodeAction extends AnAction {
     
@@ -21,15 +23,8 @@ public class SendToOpencodeAction extends AnAction {
             return;
         }
         
-        Project project = e.getProject();
-        if (project == null) {
-            Messages.showErrorDialog("No project found", "Error");
-            return;
-        }
-        
-        String projectPath = project.getBasePath();
+        String projectPath = ProjectUtils.getProjectPath(e);
         if (projectPath == null) {
-            Messages.showErrorDialog("Cannot determine project path", "Error");
             return;
         }
         
@@ -56,6 +51,8 @@ public class SendToOpencodeAction extends AnAction {
         } else {
             fileReference = "@" + relativePath + "#L" + startLine + "-" + endLine;
         }
+
+        fileReference += " ";
         
         try {
             OpencodeClient client = new OpencodeClient(projectPath);
@@ -66,6 +63,12 @@ public class SendToOpencodeAction extends AnAction {
                 "Error"
             );
         }
+    }
+    
+    @NotNull
+    @Override
+    public ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
     }
     
     @Override
