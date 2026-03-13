@@ -12,7 +12,6 @@
     
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.epochbyte.settings.OpencodeSettings"/>
-        <applicationConfigurable instance="com.epochbyte.settings.OpencodeConfigurable"/>
     </extensions>
     
     <actions>
