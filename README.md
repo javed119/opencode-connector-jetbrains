@@ -22,8 +22,10 @@ IntelliJ IDEA 插件，用于快速将选中的代码发送到 OpenCode，并支
 
 ### 启动 OpenCode
 
-点击主工具栏的执行图标，插件会：
+点击主工具栏的执行图标
+
 ![img.png](docs/resource/img.png)
+
 new ui
 ![img_1.png](docs/resource/img_1.png)
 - 自动查找可用端口
