@@ -1,77 +1,71 @@
 # OpenCode Connector
 
-IntelliJ IDEA 插件，用于快速将选中的代码发送到 OpenCode，并支持一键启动 OpenCode。
+IntelliJ IDEA plugin for quickly sending selected code to OpenCode with one-click OpenCode launch support.
 
-## 功能特性
+## Features
 
-- **快捷键发送代码**：通过快捷键将选中代码发送到 OpenCode
-- **右键菜单发送**：通过编辑器右键菜单发送代码
-- **一键启动 OpenCode**：工具栏按钮自动在 Terminal 中启动 OpenCode
-- **自动端口检测**：自动查找可用端口（20000-40000）
-- **多实例支持**：支持同时运行多个 OpenCode 实例
+- **Keyboard Shortcut**: Send selected code to OpenCode via keyboard shortcut
+- **Context Menu**: Send code through editor right-click menu
+- **One-Click Launch**: Automatically start OpenCode in Terminal via toolbar button
+- **Auto Port Detection**: Automatically find available ports (20000-40000)
+- **Multi-Instance Support**: Support running multiple OpenCode instances simultaneously
 
-## 安装
+## Usage
 
-1. 下载最新的插件安装包（`.zip` 文件）
-2. 打开 IntelliJ IDEA
-3. 进入 `Settings/Preferences` → `Plugins` → `⚙️` → `Install Plugin from Disk...`
-4. 选择下载的 `.zip` 文件
-5. 重启 IDE
+### Launch OpenCode
 
-## 使用方法
-
-### 启动 OpenCode
-
-点击主工具栏的执行图标
+Click the run icon in the main toolbar
 
 ![img.png](docs/resource/img.png)
 
 new ui
 ![img_1.png](docs/resource/img_1.png)
-- 自动查找可用端口
-- 在 Terminal 中执行 `opencode --port <port>`
-- 激活 Terminal 窗口
+- Automatically finds available port
+- Executes `opencode --port <port>` in Terminal
+- Activates Terminal window
 
-### 发送代码到 OpenCode
-1. 在编辑器中选中代码
-2. 使用以下任一方式发送：
-   - **快捷键**：
+### Send Code to OpenCode
+1. Select code in the editor
+2. Use either method to send:
+   - **Keyboard Shortcut**:
      - Windows/Linux: `Ctrl+Alt+K`
      - macOS: `Cmd+Option+K`
-   - **右键菜单**：选择 `Send to OpenCode`
+   - **Context Menu**: Select `Send to OpenCode`
 
-发送的代码格式为：`@文件路径#L起始行-结束行`
+Code is sent in format: `@file-path#Lstart-line-end-line`
 
-## 开发构建
+**Note**: Code can only be sent to OpenCode sessions running in the same working directory as your project.
 
-### 环境要求
+## Development Build
+
+### Requirements
 
 - JDK 17+
 - Gradle 8.0+
 
-### 构建命令
+### Build Commands
 
 ```bash
-# 构建插件
+# Build plugin
 ./gradlew buildPlugin
 
-# 运行插件（沙箱环境）
+# Run plugin (sandbox environment)
 ./gradlew runIde
 
-# 运行测试
+# Run tests
 ./gradlew test
 ```
 
-构建产物位于：`build/distributions/opencode-connector-*.zip`
+Build artifacts located at: `build/distributions/opencode-connector-*.zip`
 
-## 技术栈
+## Tech Stack
 
 - Java 17
 - IntelliJ Platform SDK 2023.2
 - Gradle (Kotlin DSL)
 - Gson 2.10.1
 
-## 许可证
+## License
 
 MIT License
 
