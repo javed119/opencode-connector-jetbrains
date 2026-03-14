@@ -28,7 +28,7 @@ IntelliJ IDEA 插件，用于快速将选中的代码发送到 OpenCode，并支
 - 激活 Terminal 窗口
 
 ### 发送代码到 OpenCode
-
+[idea.log](build/idea-sandbox/system/log/idea.log)
 1. 在编辑器中选中代码
 2. 使用以下任一方式发送：
    - **快捷键**：

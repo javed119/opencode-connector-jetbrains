@@ -3,6 +3,7 @@ package com.epochbyte.client;
 import com.epochbyte.settings.OpencodeSettings;
 import com.epochbyte.util.PortDetector;
 import com.google.gson.Gson;
+import com.intellij.openapi.diagnostic.Logger;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,6 +19,8 @@ public class OpencodeClient {
     
     private final String baseUrl;
     private final Gson gson;
+
+    private static final Logger LOG = Logger.getInstance(OpencodeClient.class);
     
     public OpencodeClient(String projectPath) throws IOException {
         OpencodeSettings.State settings = OpencodeSettings.getInstance().getState();
@@ -26,6 +29,7 @@ public class OpencodeClient {
         }
         int port = PortDetector.detectPort(settings.host, projectPath);
         this.baseUrl = settings.host + ":" + port;
+        LOG.info("Opencode server started on port " + port);
         this.gson = new Gson();
     }
     

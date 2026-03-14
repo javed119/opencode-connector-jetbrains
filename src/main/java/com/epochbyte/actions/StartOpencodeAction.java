@@ -1,5 +1,6 @@
 package com.epochbyte.actions;
 
+import com.epochbyte.util.OpencodePortRange;
 import com.epochbyte.util.ProjectUtils;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -17,9 +18,7 @@ import java.net.ServerSocket;
 import java.util.Random;
 
 public class StartOpencodeAction extends AnAction {
-    
-    private static final int PORT_START = 20000;
-    private static final int PORT_END = 40000;
+
     private static final int MAX_ATTEMPTS = 100;
     private static final Random random = new Random();
     
@@ -52,7 +51,8 @@ public class StartOpencodeAction extends AnAction {
     
     private int findAvailablePort() throws Exception {
         for (int i = 0; i < MAX_ATTEMPTS; i++) {
-            int port = PORT_START + random.nextInt(PORT_END - PORT_START + 1);
+            int port = OpencodePortRange.PORT_START
+                + random.nextInt(OpencodePortRange.PORT_END - OpencodePortRange.PORT_START + 1);
             try (ServerSocket socket = new ServerSocket(port)) {
                 return port;
             } catch (Exception ignored) {
