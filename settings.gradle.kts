@@ -1,1 +1,1 @@
-rootProject.name = "opencode-link-jetbrains"
+rootProject.name = "opencode-connector-jetbrains"

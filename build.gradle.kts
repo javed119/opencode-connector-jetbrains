@@ -26,7 +26,6 @@ intellij {
 tasks {
     patchPluginXml {
         sinceBuild.set("232")
-        untilBuild.set("999.*")
     }
     
     test {

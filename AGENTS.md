@@ -1,4 +1,4 @@
-# OpenCode Link JetBrains Plugin - 开发指南
+# OpenCode Connector JetBrains Plugin - 开发指南
 
 本文档为在此代码库中工作的 AI 代理提供开发规范和命令参考。
 

@@ -1,6 +1,6 @@
 <idea-plugin>
-    <id>com.epochbyte.opencode-link</id>
-    <name>OpenCode Link</name>
+    <id>com.epochbyte.opencode-connector</id>
+    <name>OpenCode Connector</name>
     <vendor>Epochbyte</vendor>
     
     <description><![CDATA[

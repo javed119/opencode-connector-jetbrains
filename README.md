@@ -1,4 +1,4 @@
-# OpenCode Link
+# OpenCode Connector
 
 IntelliJ IDEA 插件，用于快速将选中的代码发送到 OpenCode，并支持一键启动 OpenCode。
 
@@ -62,7 +62,7 @@ new ui
 ./gradlew test
 ```
 
-构建产物位于：`build/distributions/opencode-link-*.zip`
+构建产物位于：`build/distributions/opencode-connector-*.zip`
 
 ## 技术栈
 
