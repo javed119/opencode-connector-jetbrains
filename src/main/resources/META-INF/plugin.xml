@@ -20,6 +20,7 @@
                 text="Start OpenCode"
                 description="Start OpenCode in terminal"
                 icon="/icons/toolwindow-13x13.svg">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
             <add-to-group group-id="MainToolbarRight" anchor="after" relative-to-action="SearchEverywhere"/>
         </action>
         

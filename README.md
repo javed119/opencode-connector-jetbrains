@@ -22,13 +22,15 @@ IntelliJ IDEA 插件，用于快速将选中的代码发送到 OpenCode，并支
 
 ### 启动 OpenCode
 
-点击主工具栏的执行图标（▶️），插件会：
+点击主工具栏的执行图标，插件会：
+![img.png](docs/resource/img.png)
+new ui
+![img_1.png](docs/resource/img_1.png)
 - 自动查找可用端口
 - 在 Terminal 中执行 `opencode --port <port>`
 - 激活 Terminal 窗口
 
 ### 发送代码到 OpenCode
-[idea.log](build/idea-sandbox/system/log/idea.log)
 1. 在编辑器中选中代码
 2. 使用以下任一方式发送：
    - **快捷键**：
@@ -37,13 +39,6 @@ IntelliJ IDEA 插件，用于快速将选中的代码发送到 OpenCode，并支
    - **右键菜单**：选择 `Send to OpenCode`
 
 发送的代码格式为：`@文件路径#L起始行-结束行`
-
-## 配置
-
-进入 `Settings/Preferences` → `Tools` → `OpenCode Settings`：
-
-- **Host**：OpenCode 服务地址（默认：`http://127.0.0.1`）
-- **Session ID**：会话标识符（默认：`default`）
 
 ## 开发构建
 
