@@ -4,8 +4,6 @@
     <vendor>Epochbyte</vendor>
     <resource-bundle>messages.PluginBundle</resource-bundle>
 
-    <idea-version since-build="231"/>
-
     <description>
         <![CDATA[
         <p>IntelliJ IDEA plugin for quickly sending selected code to OpenCode with keyboard shortcuts and context menu.</p>
