@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
@@ -46,7 +47,7 @@ public class PortDetector {
     private static boolean matchesProject(String host, int port, String projectPath) {
         HttpURLConnection conn = null;
         try {
-            URL url = new URL(host + ":" + port + "/path");
+            URL url = toUrl(host + ":" + port + "/path");
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(HTTP_TIMEOUT_MS);
@@ -79,6 +80,14 @@ public class PortDetector {
             if (conn != null) {
                 conn.disconnect();
             }
+        }
+    }
+
+    private static URL toUrl(String endpoint) throws IOException {
+        try {
+            return URI.create(endpoint).toURL();
+        } catch (IllegalArgumentException e) {
+            throw new IOException("Invalid OpenCode endpoint: " + endpoint, e);
         }
     }
 }

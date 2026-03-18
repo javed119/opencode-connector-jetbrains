@@ -8,9 +8,9 @@ import com.intellij.openapi.diagnostic.Logger;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +54,7 @@ public class OpencodeClient {
     }
     
     private HttpURLConnection createConnection(String endpoint, String method) throws IOException {
-        URL url = new URL(endpoint);
+        URL url = toUrl(endpoint);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setConnectTimeout(TIMEOUT_MS);
         conn.setReadTimeout(TIMEOUT_MS);
@@ -62,5 +62,13 @@ public class OpencodeClient {
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setDoOutput(true);
         return conn;
+    }
+
+    private URL toUrl(String endpoint) throws IOException {
+        try {
+            return URI.create(endpoint).toURL();
+        } catch (IllegalArgumentException e) {
+            throw new IOException("Invalid OpenCode endpoint: " + endpoint, e);
+        }
     }
 }

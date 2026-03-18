@@ -2,30 +2,55 @@
     <id>com.epochbyte.opencode-connector</id>
     <name>OpenCode Connector</name>
     <vendor>Epochbyte</vendor>
-    
-    <description><![CDATA[
-    Send selected code to OpenCode via keyboard shortcut.
-    ]]></description>
-    
+
+    <description>
+        <![CDATA[
+        <p>IntelliJ IDEA plugin for quickly sending selected code to OpenCode with keyboard shortcuts and context menu.</p>
+
+        <h3>Features</h3>
+        <ul>
+            <li><b>Quick Send</b>: Send selected code via keyboard shortcut or context menu</li>
+            <li><b>One-Click Launch</b>: Start OpenCode in Terminal with auto port detection</li>
+            <li><b>Multi-Instance Support</b>: Run multiple OpenCode instances simultaneously</li>
+        </ul>
+
+        <h3>Usage</h3>
+        <ol>
+            <li>Select code in the editor</li>
+            <li>Use keyboard shortcut:
+                <ul>
+                    <li>Windows/Linux: <code>Ctrl+Alt+K</code></li>
+                    <li>macOS: <code>Cmd+Option+K</code></li>
+                </ul>
+            </li>
+            <li>Or right-click and select <b>Send to OpenCode</b></li>
+        </ol>
+
+        <p>Code is sent in format: <code>@file-path#Lstart-line-end-line</code></p>
+
+        <p><b>Note</b>: Code can only be sent to OpenCode sessions running in the same working directory as your project.</p>
+        ]]>
+    </description>
+
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
-    
+
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.epochbyte.settings.OpencodeSettings"/>
     </extensions>
-    
+
     <actions>
         <action id="com.epochbyte.StartOpencode"
                 class="com.epochbyte.actions.StartOpencodeAction"
                 text="Start OpenCode"
                 description="Start OpenCode in terminal"
-                icon="/icons/toolwindow-13x13.svg">
+                icon="/icons/opencode-logo.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
             <add-to-group group-id="MainToolbarRight" anchor="after" relative-to-action="SearchEverywhere"/>
         </action>
-        
-        <action id="com.epochbyte.SendToOpencode" 
-                class="com.epochbyte.actions.SendToOpencodeAction" 
+
+        <action id="com.epochbyte.SendToOpencode"
+                class="com.epochbyte.actions.SendToOpencodeAction"
                 text="Send to OpenCode"
                 description="Send selected code to OpenCode">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>

@@ -8,7 +8,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.plugins.terminal.ShellTerminalWidget;
+import com.intellij.terminal.ui.TerminalWidget;
 import org.jetbrains.plugins.terminal.TerminalToolWindowManager;
 
 import java.net.ServerSocket;
@@ -34,10 +34,10 @@ public class StartOpencodeAction extends AnAction {
             int port = findAvailablePort();
             
             TerminalToolWindowManager manager = TerminalToolWindowManager.getInstance(project);
-            ShellTerminalWidget widget = manager.createLocalShellWidget(projectPath, "OpenCode");
+            TerminalWidget widget = manager.createShellWidget(projectPath, "OpenCode", true, false);
             
             String command = "opencode --port " + port;
-            widget.executeCommand(command);
+            widget.sendCommandToExecute(command);
         } catch (Exception ex) {
             Messages.showErrorDialog(
                 "Failed to start OpenCode: " + ex.getMessage(), 

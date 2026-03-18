@@ -4,10 +4,15 @@ plugins {
 }
 
 group = "com.epochbyte"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 dependencies {
@@ -18,14 +23,19 @@ dependencies {
 }
 
 intellij {
-    version.set("2023.2")
+    version.set("2024.2")
     type.set("IC")
     plugins.set(listOf("org.jetbrains.plugins.terminal"))
 }
 
 tasks {
     patchPluginXml {
-        sinceBuild.set("232")
+        sinceBuild.set("242")
+        // 不设置 untilBuild，支持所有未来版本
+    }
+    
+    buildSearchableOptions {
+        enabled = false
     }
     
     test {
