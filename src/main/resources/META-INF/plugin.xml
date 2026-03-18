@@ -2,6 +2,9 @@
     <id>com.epochbyte.opencode-connector</id>
     <name>OpenCode Connector</name>
     <vendor>Epochbyte</vendor>
+    <resource-bundle>messages.PluginBundle</resource-bundle>
+
+    <idea-version since-build="231"/>
 
     <description>
         <![CDATA[
@@ -42,8 +45,6 @@
     <actions>
         <action id="com.epochbyte.StartOpencode"
                 class="com.epochbyte.actions.StartOpencodeAction"
-                text="Start OpenCode"
-                description="Start OpenCode in terminal"
                 icon="/icons/opencode-logo.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
             <add-to-group group-id="MainToolbarRight" anchor="after" relative-to-action="SearchEverywhere"/>
@@ -51,8 +52,7 @@
 
         <action id="com.epochbyte.SendToOpencode"
                 class="com.epochbyte.actions.SendToOpencodeAction"
-                text="Send to OpenCode"
-                description="Send selected code to OpenCode">
+        >
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="control alt K"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt K"/>

@@ -1,13 +1,17 @@
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.17.2"
+    id("org.jetbrains.intellij.platform") version "2.11.0"
 }
 
 group = "com.epochbyte"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 java {
@@ -17,23 +21,19 @@ java {
 
 dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
+
+    intellijPlatform {
+        intellijIdeaCommunity("2024.2")
+        bundledPlugin("org.jetbrains.plugins.terminal")
+        testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
+    }
+
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-intellij {
-    version.set("2024.2")
-    type.set("IC")
-    plugins.set(listOf("org.jetbrains.plugins.terminal"))
-}
-
 tasks {
-    patchPluginXml {
-        sinceBuild.set("242")
-        // 不设置 untilBuild，支持所有未来版本
-    }
-    
     buildSearchableOptions {
         enabled = false
     }
