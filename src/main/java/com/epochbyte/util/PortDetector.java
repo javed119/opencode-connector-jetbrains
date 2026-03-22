@@ -11,14 +11,16 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class PortDetector {
     private static final int HTTP_TIMEOUT_MS = 3000;
     private static final Gson GSON = new Gson();
     private static final Logger LOG = Logger.getInstance(PortDetector.class);
     private static final boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("win");
+    private static final Pattern WINDOWS_DRIVE_PATH = Pattern.compile("^[A-Za-z]:[\\\\/].*");
 
     public static int detectPort(String host, String projectPath) throws IOException {
         List<Integer> ports = ProcessScanner.findOpencodePorts();
@@ -36,12 +38,30 @@ public class PortDetector {
     }
 
     static boolean samePath(String projectPath, String remotePath) {
-        String normalizedProject = Paths.get(projectPath).normalize().toAbsolutePath().toString();
-        String normalizedRemote = Paths.get(remotePath).normalize().toAbsolutePath().toString();
-        if (IS_WINDOWS) {
+        String normalizedProject = normalizePath(projectPath);
+        String normalizedRemote = normalizePath(remotePath);
+        if (IS_WINDOWS || isWindowsStylePath(normalizedProject) || isWindowsStylePath(normalizedRemote)) {
             return normalizedProject.equalsIgnoreCase(normalizedRemote);
         }
         return normalizedProject.equals(normalizedRemote);
+    }
+
+    private static String normalizePath(String path) {
+        String normalizedPath = path.replace('\\', '/');
+        while (normalizedPath.contains("//")) {
+            normalizedPath = normalizedPath.replace("//", "/");
+        }
+        if (normalizedPath.endsWith("/") && normalizedPath.length() > 1) {
+            normalizedPath = normalizedPath.substring(0, normalizedPath.length() - 1);
+        }
+        if (isWindowsStylePath(normalizedPath)) {
+            return normalizedPath.toLowerCase(Locale.ROOT);
+        }
+        return normalizedPath;
+    }
+
+    private static boolean isWindowsStylePath(String path) {
+        return WINDOWS_DRIVE_PATH.matcher(path).matches();
     }
 
     private static boolean matchesProject(String host, int port, String projectPath) {
