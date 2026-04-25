@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "com.epochbyte"
-version = "1.0.2"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -31,7 +31,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     intellijPlatform {
-        intellijIdea("2024.2")
+        intellijIdeaCommunity("2024.2")
         bundledPlugin("org.jetbrains.plugins.terminal")
         testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
 
