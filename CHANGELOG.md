@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.1]
+
+### Added
+- Settings panel under `Settings → Tools → OpenCode Connector`.
+- Toggle `Focus OpenCode terminal after sending code` to control whether the OpenCode terminal gains focus after sending code or files (default: enabled).
+
 ## [1.1.0]
 
 ### Added

@@ -1,6 +1,7 @@
 package com.epochbyte.actions;
 
 import com.epochbyte.client.OpencodeClient;
+import com.epochbyte.settings.OpencodeSettings;
 import com.epochbyte.util.OpencodeReferenceBuilder;
 import com.epochbyte.util.OpencodeTerminalUtil;
 import com.epochbyte.util.ProjectUtils;
@@ -36,7 +37,9 @@ public class AddToOpencodeAction extends AnAction {
         try {
             OpencodeClient client = new OpencodeClient(projectPath);
             client.sendCode(fileReferences);
-            OpencodeTerminalUtil.focusOpenCodeTerminal(e.getProject());
+            if (OpencodeSettings.getInstance().isFocusTerminalAfterSend()) {
+                OpencodeTerminalUtil.focusOpenCodeTerminal(e.getProject());
+            }
         } catch (Exception ex) {
             Messages.showErrorDialog(
                 "Failed to add files to OpenCode: " + ex.getMessage(),

@@ -38,6 +38,11 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.epochbyte.settings.OpencodeSettings"/>
+        <applicationConfigurable
+            parentId="tools"
+            instance="com.epochbyte.settings.OpencodeConfigurable"
+            id="com.epochbyte.settings.OpencodeConfigurable"
+            key="settings.opencode.title"/>
     </extensions>
 
     <actions>
