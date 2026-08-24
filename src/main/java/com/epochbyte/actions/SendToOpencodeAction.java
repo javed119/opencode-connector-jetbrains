@@ -5,6 +5,7 @@ import com.epochbyte.settings.OpencodeSettings;
 import com.epochbyte.util.OpencodeReferenceBuilder;
 import com.epochbyte.util.OpencodeTerminalUtil;
 import com.epochbyte.util.ProjectUtils;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -13,6 +14,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +27,12 @@ public class SendToOpencodeAction extends AnAction {
         if (editor == null) {
             return;
         }
-        
+
+        Project project = e.getProject();
+        if (project == null) {
+            return;
+        }
+
         String projectPath = ProjectUtils.getProjectPath(e);
         if (projectPath == null) {
             return;
@@ -47,11 +54,22 @@ public class SendToOpencodeAction extends AnAction {
         );
 
         try {
-            OpencodeClient client = new OpencodeClient(projectPath);
-            client.sendCode(fileReference);
-            if (OpencodeSettings.getInstance().isFocusTerminalAfterSend()) {
-                OpencodeTerminalUtil.focusOpenCodeTerminal(e.getProject());
-            }
+            OpencodeClient client = new OpencodeClient(project);
+            boolean focusTerminal = OpencodeSettings.getInstance().isFocusTerminalAfterSend();
+            client.sendCode(fileReference).whenComplete((ignored, error) ->
+                ApplicationManager.getApplication().invokeLater(() -> {
+                    if (error != null) {
+                        Messages.showErrorDialog(
+                            "Failed to send code: " + error.getMessage(),
+                            "Error"
+                        );
+                        return;
+                    }
+                    if (focusTerminal) {
+                        OpencodeTerminalUtil.focusOpenCodeTerminal(project);
+                    }
+                })
+            );
         } catch (Exception ex) {
             Messages.showErrorDialog(
                 "Failed to send code: " + ex.getMessage(), 
