@@ -13,6 +13,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,12 @@ public class SendToOpencodeAction extends AnAction {
         if (editor == null) {
             return;
         }
-        
+
+        Project project = e.getProject();
+        if (project == null) {
+            return;
+        }
+
         String projectPath = ProjectUtils.getProjectPath(e);
         if (projectPath == null) {
             return;
@@ -47,7 +53,7 @@ public class SendToOpencodeAction extends AnAction {
         );
 
         try {
-            OpencodeClient client = new OpencodeClient(projectPath);
+            OpencodeClient client = new OpencodeClient(project);
             client.sendCode(fileReference);
             if (OpencodeSettings.getInstance().isFocusTerminalAfterSend()) {
                 OpencodeTerminalUtil.focusOpenCodeTerminal(e.getProject());

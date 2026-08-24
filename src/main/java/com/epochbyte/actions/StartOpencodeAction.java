@@ -1,5 +1,6 @@
 package com.epochbyte.actions;
 
+import com.epochbyte.settings.OpencodeSettings;
 import com.epochbyte.util.OpencodePortRange;
 import com.epochbyte.util.ProjectUtils;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
@@ -31,12 +32,22 @@ public class StartOpencodeAction extends AnAction {
         }
         
         try {
-            int port = findAvailablePort();
-            
+            String serverUrl = OpencodeSettings.getInstance().getServerUrl();
+            String command;
+            if (serverUrl.isBlank()) {
+                int port = findAvailablePort();
+                command = "opencode --port " + port;
+            } else {
+                String normalizedServerUrl = OpencodeSettings.normalizeServerUrl(serverUrl);
+                command = "opencode attach "
+                    + normalizedServerUrl
+                    + " --dir \""
+                    + projectPath
+                    + "\"";
+            }
+
             TerminalToolWindowManager manager = TerminalToolWindowManager.getInstance(project);
             TerminalWidget widget = manager.createShellWidget(projectPath, "OpenCode", true, false);
-            
-            String command = "opencode --port " + port;
             widget.sendCommandToExecute(command);
         } catch (Exception ex) {
             Messages.showErrorDialog(

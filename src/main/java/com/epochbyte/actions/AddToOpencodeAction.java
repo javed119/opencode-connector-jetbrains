@@ -9,6 +9,7 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +18,11 @@ public class AddToOpencodeAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
+        Project project = e.getProject();
+        if (project == null) {
+            return;
+        }
+
         String projectPath = ProjectUtils.getProjectPath(e);
         if (projectPath == null) {
             return;
@@ -35,7 +41,7 @@ public class AddToOpencodeAction extends AnAction {
         }
 
         try {
-            OpencodeClient client = new OpencodeClient(projectPath);
+            OpencodeClient client = new OpencodeClient(project);
             client.sendCode(fileReferences);
             if (OpencodeSettings.getInstance().isFocusTerminalAfterSend()) {
                 OpencodeTerminalUtil.focusOpenCodeTerminal(e.getProject());
