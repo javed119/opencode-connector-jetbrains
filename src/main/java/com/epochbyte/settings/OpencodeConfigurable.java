@@ -1,7 +1,9 @@
 package com.epochbyte.settings;
 
 import com.intellij.openapi.options.Configurable;
+import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.ui.components.JBCheckBox;
+import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
  */
 public class OpencodeConfigurable implements Configurable {
 
+    private JBTextField serverUrlField;
     private JBCheckBox focusTerminalCheckBox;
     private JPanel rootPanel;
 
@@ -27,8 +30,11 @@ public class OpencodeConfigurable implements Configurable {
     @Nullable
     @Override
     public JComponent createComponent() {
+        serverUrlField = new JBTextField();
+        serverUrlField.setToolTipText("Leave empty to start a local OpenCode server");
         focusTerminalCheckBox = new JBCheckBox("Focus OpenCode terminal after sending code");
         rootPanel = FormBuilder.createFormBuilder()
+            .addLabeledComponent("Server URL:", serverUrlField)
             .addComponent(focusTerminalCheckBox)
             .addComponentFillVertically(new JPanel(), 0)
             .getPanel();
@@ -38,27 +44,44 @@ public class OpencodeConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-        if (focusTerminalCheckBox == null) {
+        if (serverUrlField == null || focusTerminalCheckBox == null) {
             return false;
         }
-        return focusTerminalCheckBox.isSelected()
-            != OpencodeSettings.getInstance().isFocusTerminalAfterSend();
+        OpencodeSettings settings = OpencodeSettings.getInstance();
+        String serverUrl = serverUrlField.getText().trim();
+        try {
+            serverUrl = OpencodeSettings.normalizeServerUrl(serverUrl);
+        } catch (IllegalArgumentException ex) {
+            return true;
+        }
+        return !serverUrl.equals(settings.getServerUrl())
+            || focusTerminalCheckBox.isSelected() != settings.isFocusTerminalAfterSend();
     }
 
     @Override
-    public void apply() {
-        if (focusTerminalCheckBox == null) {
+    public void apply() throws ConfigurationException {
+        if (serverUrlField == null || focusTerminalCheckBox == null) {
             return;
         }
-        OpencodeSettings.getInstance()
-            .setFocusTerminalAfterSend(focusTerminalCheckBox.isSelected());
+
+        String serverUrl = serverUrlField.getText().trim();
+        try {
+            OpencodeSettings settings = OpencodeSettings.getInstance();
+            String normalizedServerUrl = OpencodeSettings.normalizeServerUrl(serverUrl);
+            settings.setServerUrl(normalizedServerUrl);
+            serverUrlField.setText(normalizedServerUrl);
+            settings.setFocusTerminalAfterSend(focusTerminalCheckBox.isSelected());
+        } catch (IllegalArgumentException ex) {
+            throw new ConfigurationException(ex.getMessage());
+        }
     }
 
     @Override
     public void reset() {
-        if (focusTerminalCheckBox == null) {
+        if (serverUrlField == null || focusTerminalCheckBox == null) {
             return;
         }
+        serverUrlField.setText(OpencodeSettings.getInstance().getServerUrl());
         focusTerminalCheckBox.setSelected(
             OpencodeSettings.getInstance().isFocusTerminalAfterSend()
         );
@@ -66,6 +89,7 @@ public class OpencodeConfigurable implements Configurable {
 
     @Override
     public void disposeUIResources() {
+        serverUrlField = null;
         focusTerminalCheckBox = null;
         rootPanel = null;
     }

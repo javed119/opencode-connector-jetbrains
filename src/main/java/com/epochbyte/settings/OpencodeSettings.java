@@ -7,6 +7,8 @@ import com.intellij.openapi.components.Storage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.net.URI;
+
 @State(
     name = "OpencodeSettings",
     storages = @Storage("OpencodeSettings.xml")
@@ -15,6 +17,7 @@ public class OpencodeSettings implements PersistentStateComponent<OpencodeSettin
     
     public static class State {
         public String host = "http://127.0.0.1";
+        public String serverUrl = "";
 
         /**
          * 控制发送代码后是否将焦点切换到 OpenCode 所在的 Terminal 标签页。
@@ -38,6 +41,45 @@ public class OpencodeSettings implements PersistentStateComponent<OpencodeSettin
     @Override
     public void loadState(@NotNull State state) {
         this.state = state;
+    }
+
+    public String getServerUrl() {
+        return state.serverUrl == null ? "" : state.serverUrl;
+    }
+
+    public void setServerUrl(String serverUrl) {
+        state.serverUrl = normalizeServerUrl(serverUrl);
+    }
+
+    public static String normalizeServerUrl(String serverUrl) {
+        String value = serverUrl == null ? "" : serverUrl.trim();
+        if (value.isEmpty()) {
+            return "";
+        }
+
+        URI uri;
+        try {
+            uri = URI.create(value);
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Invalid OpenCode server URL", ex);
+        }
+
+        String scheme = uri.getScheme();
+        if (!("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme))
+            || uri.getHost() == null
+            || uri.getUserInfo() != null
+            || uri.getQuery() != null
+            || uri.getFragment() != null
+            || (!uri.getPath().isEmpty() && !"/".equals(uri.getPath()))) {
+            throw new IllegalArgumentException(
+                "OpenCode server URL must be an http(s) URL without a path, query, or fragment"
+            );
+        }
+
+        while (value.endsWith("/")) {
+            value = value.substring(0, value.length() - 1);
+        }
+        return value;
     }
 
     /**
